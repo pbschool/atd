@@ -1,0 +1,394 @@
+:root {
+    --primary-color: #4361ee;
+    --primary-hover: #3a0ca3;
+    --secondary-color: #4cc9f0;
+    --bg-color: #f8f9fa;
+    --card-bg: rgba(255, 255, 255, 0.85);
+    --text-main: #2b2d42;
+    --text-muted: #8d99ae;
+    --border-color: rgba(255, 255, 255, 0.4);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    
+    /* Status Colors */
+    --st-none: #e2e8f0;
+    --st-present: #4ade80;
+    --st-absent: #f87171;
+    --st-sick: #60a5fa;
+    --st-leave: #fbbf24;
+    --st-late: #f472b6;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Kanit', sans-serif;
+    color: var(--text-main);
+    background-color: var(--bg-color);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+#bg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    z-index: -1;
+    transition: background-image 0.5s ease-in-out;
+}
+
+#bg-overlay::after {
+    content: '';
+    position: absolute;
+    top:0; left:0; width:100%; height:100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.app-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Header */
+.topbar {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border-color);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    justify-content: center;
+}
+
+#app-logo {
+    max-height: 50px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.main-menu {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.nav-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.5);
+    color: var(--text-main);
+    font-family: 'Kanit', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-btn:hover {
+    background: rgba(255,255,255,0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.nav-btn.active {
+    background: var(--primary-color);
+    color: white;
+    box-shadow: 0 4px 15px rgba(67, 97, 238, 0.4);
+}
+
+/* Main Content */
+.content-area {
+    position: relative;
+}
+
+.page {
+    display: none;
+    animation: fadeIn 0.4s ease forwards;
+}
+
+.page.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.glass-card {
+    background: var(--card-bg);
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+}
+
+.text-center { text-align: center; }
+.mb-3 { margin-bottom: 1rem; }
+.mb-4 { margin-bottom: 1.5rem; }
+.mt-4 { margin-top: 1.5rem; }
+.w-100 { width: 100%; }
+.text-muted { color: var(--text-muted); }
+.text-small { font-size: 0.85rem; }
+.d-flex { display: flex; }
+.justify-content-between { justify-content: space-between; }
+
+/* Forms & Buttons */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+select, input[type="date"], input[type="text"] {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(255,255,255,0.8);
+    font-family: 'Kanit', sans-serif;
+    font-size: 1rem;
+    color: var(--text-main);
+    transition: all 0.3s ease;
+}
+
+select:focus, input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    background: white;
+}
+
+.action-btn {
+    padding: 14px 24px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-family: 'Kanit', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+}
+
+.action-btn:hover:not(:disabled) {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+}
+
+.action-btn:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.action-btn:disabled {
+    background: #ccc;
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-outline {
+    padding: 10px 20px;
+    background: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    border-radius: 12px;
+    font-family: 'Kanit', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Steps */
+.step {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.step.active {
+    display: block;
+}
+
+/* Student List */
+.students-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.student-row {
+    background: rgba(255,255,255,0.6);
+    border: 1px solid rgba(255,255,255,0.8);
+    border-radius: 16px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.student-row:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+    background: rgba(255,255,255,0.9);
+}
+
+.student-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.student-no {
+    font-weight: 600;
+    color: var(--primary-color);
+    width: 25px;
+}
+
+.student-img-placeholder {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    font-size: 1.2rem;
+}
+.student-img-placeholder::after {
+    content: "👤";
+}
+
+.student-names {
+    flex-grow: 1;
+}
+
+.student-fullname {
+    font-weight: 600;
+    font-size: 1.05rem;
+}
+
+.student-nickname {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.student-statuses {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.status-btn {
+    flex: 1;
+    min-width: 45px;
+    padding: 8px 10px;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.5);
+    color: var(--text-muted);
+    font-family: 'Kanit', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.status-btn[data-status="-"] { --st-color: var(--st-none); }
+.status-btn[data-status="มา"] { --st-color: var(--st-present); }
+.status-btn[data-status="ขาด"] { --st-color: var(--st-absent); }
+.status-btn[data-status="ป่วย"] { --st-color: var(--st-sick); }
+.status-btn[data-status="ลา"] { --st-color: var(--st-leave); }
+.status-btn[data-status="สาย"] { --st-color: var(--st-late); }
+
+.status-btn:hover {
+    border-color: var(--st-color);
+    opacity: 0.8;
+}
+
+.status-btn.selected {
+    background: var(--st-color);
+    color: #fff;
+    border-color: var(--st-color);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transform: scale(1.05);
+}
+
+.status-btn.selected[data-status="-"] {
+    color: var(--text-main);
+}
+
+.loading-msg {
+    text-align: center;
+    padding: 20px;
+    color: var(--primary-color);
+    font-weight: 600;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+@media (min-width: 600px) {
+    .topbar {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .student-row {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .student-statuses {
+        flex: 0 0 auto;
+        justify-content: flex-end;
+    }
+    .status-btn {
+        flex: 0 0 auto;
+    }
+}

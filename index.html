@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บันทึกเวลาเรียน</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background will be set dynamically via JS -->
+    <div id="bg-overlay"></div>
+
+    <div class="app-container">
+        <!-- Sidebar / Topbar Menu -->
+        <header class="topbar">
+            <div class="logo-container">
+                <img id="app-logo" src="" alt="App Logo" style="display:none;">
+                <h2 id="app-title">ระบบบันทึกเวลา</h2>
+            </div>
+            <nav class="main-menu">
+                <button class="nav-btn active" data-target="page-home">หน้าแรก</button>
+                <button class="nav-btn" data-target="page-record">บันทึกเวลาเรียน</button>
+                <button class="nav-btn" data-target="page-report">ดูรายงานสรุป</button>
+                <button class="nav-btn" data-target="page-settings">ตั้งค่า</button>
+            </nav>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="content-area">
+            
+            <!-- Page: Home -->
+            <section id="page-home" class="page active">
+                <div class="glass-card text-center">
+                    <h1>ยินดีต้อนรับสู่ระบบบันทึกเวลาเรียน</h1>
+                    <p>ระบบบันทึกและจัดการเวลาเข้าเรียนสำหรับคุณครู</p>
+                    <button class="action-btn" onclick="document.querySelector('.nav-btn[data-target=\'page-record\']').click()">เริ่มต้นบันทึกเวลา</button>
+                </div>
+            </section>
+
+            <!-- Page: Record Attendance -->
+            <section id="page-record" class="page">
+                <div class="glass-card">
+                    <h2 class="mb-4">บันทึกเวลามาเรียน</h2>
+                    
+                    <div id="record-step-1" class="step active">
+                        <div class="form-group">
+                            <label>ปีการศึกษา</label>
+                            <select id="select-year"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>ระดับชั้น</label>
+                            <select id="select-grade">
+                                <option value="อ.1">อ.1</option>
+                                <option value="อ.2">อ.2</option>
+                                <option value="อ.3">อ.3</option>
+                                <option value="ป.1">ป.1</option>
+                                <option value="ป.2">ป.2</option>
+                                <option value="ป.3">ป.3</option>
+                                <option value="ป.4">ป.4</option>
+                                <option value="ป.5">ป.5</option>
+                                <option value="ป.6">ป.6</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>วันที่</label>
+                            <input type="date" id="select-date">
+                        </div>
+                        <button id="btn-next-step" class="action-btn w-100">ตกลง</button>
+                        <div id="loading-config" class="loading-msg" style="display:none;">กำลังโหลดตั้งค่าระบบ...</div>
+                    </div>
+
+                    <div id="record-step-2" class="step">
+                        <div class="d-flex justify-content-between mb-4">
+                            <button id="btn-back-step" class="btn-outline">กลับ</button>
+                            <h3 id="current-class-info" style="margin:0; align-self:center;">-</h3>
+                        </div>
+                        
+                        <div id="loading-students" class="loading-msg">กำลังโหลดรายชื่อนักเรียน...</div>
+                        
+                        <div id="students-list" class="students-list">
+                            <!-- Student rows will be injected here -->
+                        </div>
+
+                        <div class="action-row mt-4" style="text-align: right; display:none;" id="save-row">
+                            <button id="btn-save-attendance" class="action-btn">บันทึกข้อมูล</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Page: Report -->
+            <section id="page-report" class="page">
+                <div class="glass-card">
+                    <h2>ดูรายงานสรุป</h2>
+                    <p class="text-muted">เลือกประเภทรายงานที่ต้องการเรียกดู</p>
+                    <div class="report-menu">
+                        <button class="action-btn w-100 mb-3" disabled>รายงานประจำวัน (รอการพัฒนา)</button>
+                        <button class="action-btn w-100 mb-3" disabled>รายงานเดือน (รอการพัฒนา)</button>
+                        <button class="action-btn w-100 mb-3" disabled>รายงานภาคเรียน (รอการพัฒนา)</button>
+                        <button class="action-btn w-100 mb-3" disabled>รายงานปีการศึกษา (รอการพัฒนา)</button>
+                    </div>
+                    <p class="text-small" style="color:var(--text-muted); margin-top:1rem;">*ส่วนนี้จะมีการพัฒนาแท็บชี้ตแยกเพื่อการประมวลผลที่รวดเร็วในภายหลัง</p>
+                </div>
+            </section>
+
+            <!-- Page: Settings -->
+            <section id="page-settings" class="page">
+                <div class="glass-card">
+                    <h2>ตั้งค่าระบบ</h2>
+                    <p class="text-muted">ดึงข้อมูลการตั้งค่าล่าสุดจาก Google Drive</p>
+                    
+                    <div id="admin-auth-section">
+                        <div class="form-group mt-4">
+                            <label>รหัสผ่านผู้ดูแลระบบ</label>
+                            <input type="password" id="admin-password" placeholder="กรุณากรอกรหัสผ่าน">
+                        </div>
+                        <button id="btn-admin-unlock" class="action-btn w-100">ยืนยันรหัสผ่าน</button>
+                    </div>
+
+                    <div id="settings-content-section" style="display:none; margin-top:20px;">
+                        <div class="form-group">
+                            <label>API Web App URL (GAS)</label>
+                            <input type="text" id="api-url" placeholder="วางลิงก์ Web App URL ที่นี่">
+                            <p class="text-small" style="color:var(--text-muted);">ใช้สำหรับเชื่อมต่อกับฐานข้อมูล Google Sheets</p>
+                        </div>
+                        <button id="btn-sync-settings" class="action-btn w-100">ซิงค์การตั้งค่าล่าสุด</button>
+                        <div id="sync-status" class="mt-4 text-center"></div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+    
+    <!-- Status Button Template -->
+    <template id="student-row-template">
+        <div class="student-row" data-id="">
+            <div class="student-info">
+                <div class="student-no"></div>
+                <div class="student-img-placeholder"></div>
+                <div class="student-names">
+                    <div class="student-fullname"></div>
+                    <div class="student-nickname"></div>
+                </div>
+            </div>
+            <div class="student-statuses">
+                <button class="status-btn" data-status="-">-</button>
+                <button class="status-btn" data-status="มา">มา</button>
+                <button class="status-btn" data-status="ขาด">ขาด</button>
+                <button class="status-btn" data-status="ป่วย">ป่วย</button>
+                <button class="status-btn" data-status="ลา">ลา</button>
+                <button class="status-btn" data-status="สาย">สาย</button>
+            </div>
+        </div>
+    </template>
+
+    <script src="script.js"></script>
+</body>
+</html>
