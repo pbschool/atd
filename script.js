@@ -56,6 +56,7 @@ function init() {
     const dd = String(today.getDate()).padStart(2, '0');
     els.selectDate.value = `${yyyy}-${mm}-${dd}`;
     
+    populateYearDropdown();
     els.selectGrade.value = state.lastGrade;
     
     // Setup Settings initial state
