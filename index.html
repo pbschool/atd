@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <!-- Background will be set dynamically via JS -->
     <div id="bg-overlay"></div>
@@ -30,13 +32,59 @@
 
         <!-- Main Content Area -->
         <main class="content-area">
-            
+
             <!-- Page: Home -->
             <section id="page-home" class="page active">
-                <div class="glass-card text-center">
-                    <h1>ยินดีต้อนรับสู่ระบบบันทึกเวลาเรียน</h1>
-                    <p>ระบบบันทึกและจัดการเวลาเข้าเรียนสำหรับคุณครู</p>
-                    <button class="action-btn" onclick="document.querySelector('.nav-btn[data-target=\'page-record\']').click()">เริ่มต้นบันทึกเวลา</button>
+                <div class="glass-card">
+                    <div class="text-center mb-4">
+                        <h1 style="font-size: 1.6rem; margin-bottom: 8px;">ยินดีต้อนรับสู่ระบบบันทึกเวลาเรียน</h1>
+                        <p class="text-muted">กรุณาเลือกระดับชั้นเรียนและปีการศึกษาเพื่อเริ่มต้นใช้งาน</p>
+                    </div>
+
+                    <div class="class-selector-card" style="background: rgba(255,255,255,0.7); padding: 18px; border-radius: 14px; border: 1px solid rgba(0,0,0,0.06); margin-bottom: 20px;">
+                        <div class="form-group mb-3">
+                            <label style="font-weight: 600;">ปีการศึกษา</label>
+                            <select id="home-select-year"></select>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label style="font-weight: 600;">เลือกระดับชั้น</label>
+                            <div class="grade-grid-selector" id="home-grade-buttons">
+                                <button type="button" class="btn-grade-opt" data-grade="อ.1">อ.1</button>
+                                <button type="button" class="btn-grade-opt" data-grade="อ.2">อ.2</button>
+                                <button type="button" class="btn-grade-opt" data-grade="อ.3">อ.3</button>
+                                <button type="button" class="btn-grade-opt" data-grade="ป.1">ป.1</button>
+                                <button type="button" class="btn-grade-opt" data-grade="ป.2">ป.2</button>
+                                <button type="button" class="btn-grade-opt" data-grade="ป.3">ป.3</button>
+                                <button type="button" class="btn-grade-opt" data-grade="ป.4">ป.4</button>
+                                <button type="button" class="btn-grade-opt" data-grade="ป.5">ป.5</button>
+                                <button type="button" class="btn-grade-opt" data-grade="ป.6">ป.6</button>
+                            </div>
+                        </div>
+
+                        <div class="selected-grade-status text-center" style="background: #eff6ff; padding: 10px; border-radius: 8px; border: 1px solid #bfdbfe;">
+                            <span style="color: #1e40af; font-weight: 500;">ชั้นที่เลือกในขณะนี้: </span>
+                            <span id="home-current-grade-display" style="color: #1d4ed8; font-weight: 700; font-size: 1.15rem;">อ.1</span>
+                        </div>
+                    </div>
+
+                    <div class="home-action-buttons" style="display: flex; flex-direction: column; gap: 12px;">
+                        <button id="btn-home-go-record" class="action-btn w-100" style="display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 1.05rem;">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                            </svg>
+                            <span>เข้าสู่เมนู บันทึกเวลาเรียน (<span class="dyn-grade-text">อ.1</span>)</span>
+                        </button>
+                        <button id="btn-home-go-report" class="action-btn w-100" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 1.05rem;">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="20" x2="18" y2="10"></line>
+                                <line x1="12" y1="20" x2="12" y2="4"></line>
+                                <line x1="6" y1="20" x2="6" y2="14"></line>
+                            </svg>
+                            <span>เข้าสู่เมนู ดูรายงานสรุป</span>
+                        </button>
+                    </div>
                 </div>
             </section>
 
@@ -44,7 +92,7 @@
             <section id="page-record" class="page">
                 <div class="glass-card">
                     <h2 class="mb-4">บันทึกเวลามาเรียน</h2>
-                    
+
                     <div id="record-step-1" class="step active">
                         <div class="form-group">
                             <label>ปีการศึกษา</label>
@@ -77,9 +125,41 @@
                             <button id="btn-back-step" class="btn-outline">กลับ</button>
                             <h3 id="current-class-info" style="margin:0; align-self:center;">-</h3>
                         </div>
-                        
+
                         <div id="loading-students" class="loading-msg">กำลังโหลดรายชื่อนักเรียน...</div>
-                        
+
+                        <!-- Bulk Actions -->
+                        <div id="bulk-actions" class="bulk-actions-wrapper mb-3" style="display:none;">
+                            <span class="bulk-label">เลือกทั้งหมด:</span>
+                            <div class="bulk-buttons">
+                                <button id="btn-select-all-present" class="btn-bulk btn-bulk-present"
+                                    title="เลือก 'มา' ทั้งหมด">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+                                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                    <span>มา</span>
+                                </button>
+                                <button id="btn-select-all-absent" class="btn-bulk btn-bulk-absent"
+                                    title="เลือก 'ขาด' ทั้งหมด">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+                                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                    </svg>
+                                    <span>ขาด</span>
+                                </button>
+                                <button id="btn-clear-all" class="btn-bulk btn-bulk-clear" title="ล้างสถานะทั้งหมด">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+                                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                                        <path d="M3 3v5h5"></path>
+                                    </svg>
+                                    <span>ล้าง</span>
+                                </button>
+                            </div>
+                        </div>
+
                         <div id="students-list" class="students-list">
                             <!-- Student rows will be injected here -->
                         </div>
@@ -93,16 +173,135 @@
 
             <!-- Page: Report -->
             <section id="page-report" class="page">
-                <div class="glass-card">
-                    <h2>ดูรายงานสรุป</h2>
-                    <p class="text-muted">เลือกประเภทรายงานที่ต้องการเรียกดู</p>
-                    <div class="report-menu">
-                        <button class="action-btn w-100 mb-3" disabled>รายงานประจำวัน (รอการพัฒนา)</button>
-                        <button class="action-btn w-100 mb-3" disabled>รายงานเดือน (รอการพัฒนา)</button>
-                        <button class="action-btn w-100 mb-3" disabled>รายงานภาคเรียน (รอการพัฒนา)</button>
-                        <button class="action-btn w-100 mb-3" disabled>รายงานปีการศึกษา (รอการพัฒนา)</button>
+                <!-- Report Main Menu View -->
+                <div id="report-menu-view" class="glass-card">
+                    <!-- Group 1: Whole School Reports -->
+                    <div class="report-section-group mb-4">
+                        <h2 style="font-size: 1.3rem; color: var(--primary-hover); margin-bottom: 4px;">ดูรายงานสรุปทั้งโรงเรียน</h2>
+                        <p class="text-muted" style="margin-bottom: 15px;">รายงานภาพรวมสถิติของทุกระดับชั้นทั้งโรงเรียน</p>
+                        <div class="report-menu">
+                            <button id="btn-open-daily-report" class="action-btn w-100 mb-3" style="font-size: 1.05rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                                <span>สถิตินักเรียนมาเรียนประจำวัน</span>
+                            </button>
+                            <button class="action-btn w-100 mb-3" disabled style="opacity:0.6;">รายงานเดือน (รอการพัฒนา)</button>
+                            <button class="action-btn w-100 mb-3" disabled style="opacity:0.6;">รายงานภาคเรียน (รอการพัฒนา)</button>
+                            <button class="action-btn w-100 mb-3" disabled style="opacity:0.6;">รายงานปีการศึกษา (รอการพัฒนา)</button>
+                        </div>
+                        <p class="text-small" style="color:var(--text-muted); margin-top:0.5rem;">
+                            *ข้อมูลสถิติประจำวันเชื่อมโยงอัตโนมัติจากชีต DayNow</p>
                     </div>
-                    <p class="text-small" style="color:var(--text-muted); margin-top:1rem;">*ส่วนนี้จะมีการพัฒนาแท็บชี้ตแยกเพื่อการประมวลผลที่รวดเร็วในภายหลัง</p>
+
+                    <hr style="border: 0; border-top: 1px solid rgba(0,0,0,0.1); margin: 20px 0;">
+
+                    <!-- Group 2: Class Specific Reports -->
+                    <div class="report-section-group">
+                        <h2 style="font-size: 1.3rem; color: var(--primary-hover); margin-bottom: 4px;">ดูรายงานสรุป ประจำชั้น <span id="report-selected-grade-label" style="color:var(--primary-color);">อ.1</span></h2>
+                        <p class="text-muted" style="margin-bottom: 15px;">รายงานสถิติเฉพาะระดับชั้นเรียนที่เลือก</p>
+                        <div class="report-menu">
+                            <button class="action-btn w-100 mb-3" disabled style="opacity:0.6;">1. สถานะมาเรียนทั้งหมด (รอการพัฒนา)</button>
+                            <button class="action-btn w-100 mb-3" disabled style="opacity:0.6;">2. แสดงวันเก่าที่ยังไม่ได้เช็ค (รอการพัฒนา)</button>
+                            <button class="action-btn w-100 mb-3" disabled style="opacity:0.6;">3. Dashboard ประจำชั้น (รอการพัฒนา)</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daily Report Detail View -->
+                <div id="daily-report-view" class="glass-card" style="display: none;">
+                    <div class="report-toolbar mb-3">
+                        <button id="btn-daily-back" class="btn-outline">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="19" y1="12" x2="5" y2="12"></line>
+                                <polyline points="12 19 5 12 12 5"></polyline>
+                            </svg>
+                            <span>กลับ</span>
+                        </button>
+                        
+                        <div class="toolbar-actions">
+                            <button id="btn-daily-refresh" class="btn-tool" title="รีเฟรชข้อมูลล่าสุด">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="23 4 23 10 17 10"></polyline>
+                                    <polyline points="1 20 1 14 7 14"></polyline>
+                                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                                </svg>
+                                <span>รีเฟรช</span>
+                            </button>
+                            <button id="btn-daily-copy-image" class="btn-tool btn-tool-primary" title="คัดลอกตารางเป็นรูปภาพลง Clipboard">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                                <span>คัดลอกรูปภาพ</span>
+                            </button>
+                            <button id="btn-daily-save-image" class="btn-tool" title="บันทึกเป็นรูปภาพ PNG">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                <span>บันทึกรูป</span>
+                            </button>
+                            <button id="btn-daily-copy-text" class="btn-tool" title="คัดลอกข้อความสรุป">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                </svg>
+                                <span>คัดลอกข้อความ</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="daily-toast" class="daily-toast-msg" style="display: none;"></div>
+                    <div id="daily-loading" class="loading-msg" style="display: none;">กำลังโหลดข้อมูลสถิติประจำวัน...</div>
+
+                    <!-- Printable / Capturable Card -->
+                    <div id="daily-report-card" class="daily-report-card-wrapper">
+                        <div class="daily-report-header">
+                            <div class="daily-report-title-group">
+                                <h3 class="daily-report-title">สถิตินักเรียนมาเรียนประจำวัน</h3>
+                                <div id="daily-report-date-text" class="daily-report-subtitle">ข้อมูล ณ วันที่ -</div>
+                            </div>
+                        </div>
+
+                        <div class="daily-table-container">
+                            <table id="daily-stats-table" class="daily-stats-table">
+                                <thead>
+                                    <!-- Header Row 1 -->
+                                    <tr class="thead-row-1">
+                                        <th rowspan="2" class="th-grade">ระดับชั้น</th>
+                                        <th colspan="3" class="th-group th-group-all">นักเรียนทั้งหมด</th>
+                                        <th colspan="4" class="th-group th-group-present">มาเรียน</th>
+                                        <th colspan="4" class="th-group th-group-absent">ขาดเรียน</th>
+                                        <th rowspan="2" class="th-note">หมายเหตุ</th>
+                                    </tr>
+                                    <!-- Header Row 2 -->
+                                    <tr class="thead-row-2">
+                                        <!-- ทั้งหมด -->
+                                        <th class="th-sub th-all">ช</th>
+                                        <th class="th-sub th-all">ญ</th>
+                                        <th class="th-sub th-all th-sub-total">รวม</th>
+                                        <!-- มาเรียน -->
+                                        <th class="th-sub th-present">ช</th>
+                                        <th class="th-sub th-present">ญ</th>
+                                        <th class="th-sub th-present th-sub-total">รวม</th>
+                                        <th class="th-sub th-present th-sub-pct">ร้อยละ</th>
+                                        <!-- ขาดเรียน -->
+                                        <th class="th-sub th-absent">ชาย</th>
+                                        <th class="th-sub th-absent">หญิง</th>
+                                        <th class="th-sub th-absent th-sub-total">รวม</th>
+                                        <th class="th-sub th-absent th-sub-pct">ร้อยละ</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="daily-stats-tbody">
+                                    <!-- Dynamic rows will be inserted here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -111,7 +310,7 @@
                 <div class="glass-card">
                     <h2>ตั้งค่าระบบ</h2>
                     <p class="text-muted">ดึงข้อมูลการตั้งค่าล่าสุดจาก Google Drive</p>
-                    
+
                     <div id="admin-auth-section">
                         <div class="form-group mt-4">
                             <label>รหัสผ่านผู้ดูแลระบบ</label>
@@ -124,17 +323,37 @@
                         <div class="form-group">
                             <label>API Web App URL (GAS)</label>
                             <input type="text" id="api-url" placeholder="วางลิงก์ Web App URL ที่นี่">
-                            <p class="text-small" style="color:var(--text-muted);">ใช้สำหรับเชื่อมต่อกับฐานข้อมูล Google Sheets</p>
+                            <p class="text-small" style="color:var(--text-muted);">ใช้สำหรับเชื่อมต่อกับฐานข้อมูล Google
+                                Sheets</p>
                         </div>
                         <button id="btn-sync-settings" class="action-btn w-100">ซิงค์การตั้งค่าล่าสุด</button>
                         <div id="sync-status" class="mt-4 text-center"></div>
+
+                        <!-- Help / Instruction Box -->
+                        <div class="help-box mt-4"
+                            style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; font-size: 0.85rem; text-align: left; border: 1px solid rgba(255,255,255,0.1);">
+                            <h4 style="margin-top:0; margin-bottom:10px; color: #4facfe;">ℹ️ คู่มืออัปเดตระบบ (Deploy)
+                            </h4>
+                            <p style="margin-bottom:8px;"><strong>ชีตระบบ:</strong> <code
+                                    style="background:rgba(0,0,0,0.3); padding:2px 5px; border-radius:3px;">1r9BWbErUqeZexwrvKPhve0zA6cm7vEl01CMme6_hbi4</code>
+                            </p>
+                            <p style="margin-bottom:5px;">หากแก้โค้ดใน Apps Script ต้องอัปเดตเวอร์ชันเสมอ:</p>
+                            <ol style="padding-left: 20px; margin-bottom: 0; line-height: 1.4;">
+                                <li>เปิดชีตระบบด้านบน เลือก <strong>ส่วนขยาย > Apps Script</strong></li>
+                                <li>วางโค้ดใหม่และกด <strong>บันทึก (Save)</strong></li>
+                                <li>ไปที่เมนู <strong>Deploy > Manage Deployments</strong></li>
+                                <li>กดไอคอน <strong>ดินสอ (แก้ไข)</strong></li>
+                                <li>ช่อง Version <strong>ให้เลือก "New (สร้างใหม่)" เสมอ!</strong></li>
+                                <li>กด Deploy และนำลิงก์ Web App (ที่ลงท้ายด้วย /exec) มาวางด้านบนเพื่อซิงค์</li>
+                            </ol>
+                        </div>
                     </div>
                 </div>
             </section>
 
         </main>
     </div>
-    
+
     <!-- Status Button Template -->
     <template id="student-row-template">
         <div class="student-row" data-id="">
@@ -147,7 +366,7 @@
                 </div>
             </div>
             <div class="student-statuses">
-                <button class="status-btn" data-status="-">-</button>
+                <button class="status-btn" data-status="">ว่าง</button>
                 <button class="status-btn" data-status="มา">มา</button>
                 <button class="status-btn" data-status="ขาด">ขาด</button>
                 <button class="status-btn" data-status="ป่วย">ป่วย</button>
@@ -157,6 +376,8 @@
         </div>
     </template>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>
